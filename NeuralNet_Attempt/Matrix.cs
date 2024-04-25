@@ -99,5 +99,17 @@ namespace NeuralNet_Attempt
             }
 
         }
+
+
+        public Vector ExtractVector()
+        {
+            if(_data.GetLength(0) == 1)
+                return ExtractRow(0);
+            if (_data.GetLength(1) == 1)
+                return ExtractColumn(0);
+            else
+                throw new Exception("could not extract vector from matrix");
+
+        }
     }
 }

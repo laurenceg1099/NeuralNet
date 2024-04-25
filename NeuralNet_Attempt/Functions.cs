@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace NeuralNet_Attempt
 {
-    internal class Functions
+    public static class Functions
     {
-        public string type = "ReLU";
-        public Vector Activaion(Vector nodeIn)
+        public static string type = "ReLU";
+        public static Vector Activation(Vector nodeIn)
         {
 
             switch (type)
@@ -22,7 +22,7 @@ namespace NeuralNet_Attempt
             return nodeIn;
         }
 
-        public Vector ReLU(Vector nodeIn)
+        public static Vector ReLU(Vector nodeIn)
         {
             var result = new Vector(new double[nodeIn._data.Length]);
             for (int i = 0; i < nodeIn._data.Length; i++) 

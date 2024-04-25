@@ -22,10 +22,10 @@ namespace NeuralNet_Attempt
 
         }
 
-        public double[] GetNextNodes()
+        public Vector GetNextNodes()
         {
-            var Z = (_weights.Multiply(_nodes.FromVectorVertical()));
-            return z.activaion;
+            var Z = (_weights.Multiply(_nodes.FromVectorVertical())).ExtractVector().SumVector(_bias);
+            return Functions.Activation(Z);
         }
 
     }
