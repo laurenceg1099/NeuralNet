@@ -11,14 +11,14 @@ namespace NeuralNet_Attempt
 {
     class Layer
     {
-        private Vector _nodes;
+        public  Vector _nodes;
         private Matrix _weights;
         private Vector _bias;
-        public Layer(int nodes , int nex_count)
+        public Layer(int nodes_count , int next_count)
         {
-            _nodes = new Vector(new double[nodes]);
-            _weights = new Matrix(new double[nex_count,nodes]);
-            _bias = new Vector(new double[nex_count]);
+            _nodes = new Vector(new double[nodes_count]);
+            _weights = new Matrix(new double[next_count,nodes_count]);
+            _bias = new Vector(new double[next_count]);
 
         }
 
