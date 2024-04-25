@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,16 +21,18 @@ namespace NeuralNet_Attempt
             }
         }
 
-        public void ForwardPropagate()
+        public void ForwardPropagate(Vector input , Vector label)
         {
-            layers[0]._nodes = inputX;
+            layers[0]._nodes = input;
 
             for(int i = 0 ; i < layers.Length-1; i++)
             {
                 layers[i + 1]._nodes = layers[i].GetNextNodes();
             }
 
-            var Output = layers[-1]._nodes;
+            var output = layers[-1]._nodes;
+
+            var squaredError = Functions.Loss(output, label);
 
 
         }

@@ -40,6 +40,16 @@ namespace NeuralNet_Attempt
             return result;
         }
 
+        public Vector SubVector(Vector VectB)
+        {
+            var result = new Vector(new double[_data.Length]);
+            for (int i = 0; i < _data.Length; ++i)
+            {
+                result._data[i] = _data[i] - VectB._data[i];
+            }
+
+            return result;
+        }
         public Matrix FromVectorVertical()
         {
             var result = new double[_data.Length, 1];
