@@ -31,19 +31,7 @@ namespace NeuralNet_Attempt
             return new Matrix(result);
         }
 
-        public static Matrix FromVector(double[] vector)
-        {
 
-
-            var result = new double[vector.Length, 1];
-
-            for (var y = 0; y < vector.Length; y++)
-            {
-                result[y, 0] = vector[y];
-            }
-
-            return new Matrix(result);
-        }
 
         public Matrix Multiply(Matrix matrix2)
         {
@@ -66,7 +54,7 @@ namespace NeuralNet_Attempt
                 {
                     var row = ExtractRow(r);
 
-                    result[r, c] = Vector.dotProduct(row, column);
+                    result[r, c] = row.dotProduct(column);
                 }
 
             }
@@ -74,7 +62,7 @@ namespace NeuralNet_Attempt
             return new Matrix(result);
         }
 
-        public double[] ExtractColumn(int c)
+        public Vector ExtractColumn(int c)
         {
             int matrixHeight = _data.GetLength(0);
             var result = new double[matrixHeight];
@@ -82,11 +70,11 @@ namespace NeuralNet_Attempt
             {
                 result[y] = _data[y, c];
             }
-            return result;
+            return new Vector(result);
         }
 
 
-        public double[] ExtractRow(int r)
+        public Vector ExtractRow(int r)
         {
             int matrixLength = _data.GetLength(1);
             var result = new double[matrixLength];
@@ -94,7 +82,7 @@ namespace NeuralNet_Attempt
             {
                 result[x] = _data[r, x];
             }
-            return result;
+            return new Vector(result);
         }
 
 

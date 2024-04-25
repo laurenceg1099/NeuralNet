@@ -6,22 +6,62 @@ using System.Threading.Tasks;
 
 namespace NeuralNet_Attempt
 {
-    
-    public static class Vector
+
+    public class Vector
     {
-        public static double dotProduct(double[] vectA, double[] vectB)
+        public double[] _data;
+        public Vector(double[] inVect)
         {
-            if (vectA.Length != vectB.Length)
+            _data = inVect;
+        }
+        public double dotProduct(Vector vectB)
+        {
+            if (_data.Length != vectB._data.Length)
                 throw new Exception("Collum and row size did not match");
 
-            var result = new double[vectA.Length];
-            for(int i = 0; i < vectA.Length; i++)
+            var result = new double[_data.Length];
+            for (int i = 0; i < _data.Length; i++)
             {
-                result[i] = vectA[i] * vectB[i];    
+                result[i] = _data[i] * vectB._data[i];
             }
 
             // result = [ab,cd,ef,...]
             return result.Sum();
+        }
+
+        public Vector SumVector(Vector VectB)
+        {
+            var result = new Vector(new double[_data.Length]);
+            for (int i =0; i < _data.Length; ++i)
+            {
+                result._data[i] = VectB._data[i] + _data[i];
+            }
+
+            return result;
+        }
+
+        public Matrix FromVectorVertical()
+        {
+            var result = new double[_data.Length, 1];
+
+            for (var y = 0; y < _data.Length; y++)
+            {
+                result[y, 0] = _data[y];
+            }
+
+            return new Matrix(result);
+        }
+
+        public Matrix FromVectorHorizontal()
+        {
+            var result = new double[1,_data.Length];
+
+            for (var x = 0; x < _data.Length; x++)
+            {
+                result[0, x] = _data[x];
+            }
+
+            return new Matrix(result);
         }
     }
 }

@@ -11,22 +11,22 @@ namespace NeuralNet_Attempt
 {
     class Layer
     {
-        private double[] _nodes;
-        private double[,] _weights;
-        private double[] _bias;
+        private Vector _nodes;
+        private Matrix _weights;
+        private Vector _bias;
         public Layer(int nodes , int nex_count)
         {
-            _nodes = new double[nodes];
-            _weights = new double[nex_count,nodes];
-            _bias = new double[nex_count];
+            _nodes = new Vector(new double[nodes]);
+            _weights = new Matrix(new double[nex_count,nodes]);
+            _bias = new Vector(new double[nex_count]);
 
         }
-            
-    //    public double[] GetNextNodes()
-    //    {
-    //        var Z =  (Matrix.Multiply(_weights,Matrix.FromVector(_nodes) + bias;
-    //        return z.activaion;
-    //    }
-        
+
+        public double[] GetNextNodes()
+        {
+            var Z = (_weights.Multiply(_nodes.FromVectorVertical()));
+            return z.activaion;
+        }
+
     }
 }
