@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNet_Attempt
 {
-    class Layer
+    public class Layer
     {
         public  Vector _nodes;
         private Matrix _weights;
