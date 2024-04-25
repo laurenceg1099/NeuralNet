@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace NeuralNet_Attempt
 {
-    public static class Matrix
+    public class Matrix
     {
-        public static double[,] Transpose(double[,] inMatix)
+        public double[,] _data;
+        public Matrix(double[,] InArray)
         {
-            var inY = inMatix.GetLength(0);
-            var inX = inMatix.GetLength(1);
+            _data = InArray;
+        }
+        public Matrix Transpose()
+        {
+            var inY = _data.GetLength(0);
+            var inX = _data.GetLength(1);
 
             var result = new double[inX, inY];
 
@@ -19,14 +24,14 @@ namespace NeuralNet_Attempt
             {
                 for (var x = 0; x < inX; x++)
                 {
-                    result[x, y] = inMatix[y, x];
+                    result[x, y] = _data[y, x];
                 }
             }
 
-            return result;
+            return new Matrix(result);
         }
 
-        public static double[,] FromVector(double[] vector)
+        public static Matrix FromVector(double[] vector)
         {
 
 
@@ -37,57 +42,74 @@ namespace NeuralNet_Attempt
                 result[y, 0] = vector[y];
             }
 
-            return result;
+            return new Matrix(result);
         }
 
-        public static double[,] Multiply(double[,] matrix1, double[,] matrix2)
+        public Matrix Multiply(Matrix matrix2)
         {
-            if (matrix1.GetLength(1) != matrix2.GetLength(0))
+            var matrix1 = _data;
+
+            if (matrix1.GetLength(1) != matrix2._data.GetLength(0))
                 throw new Exception("Could not do matrix multiplication, sizes were not compatible");
 
             // not sure why the resulting matrix is this size it just is 
             var R1 = matrix1.GetLength(0);
-            var C2 = matrix2.GetLength(1);
+            var C2 = matrix2._data.GetLength(1);
 
             var result = new double[R1, C2];
 
             for (var c = 0; c < C2; c++)
             {
-                var column = Matrix.ExtractColumn(matrix2, c);
+                var column = matrix2.ExtractColumn(c);
 
                 for (var r = 0; r < R1; r++)
                 {
-                    var row = Matrix.ExtractRow(matrix1, r);
+                    var row = ExtractRow(r);
 
                     result[r, c] = Vector.dotProduct(row, column);
                 }
 
             }
 
-            return result;
+            return new Matrix(result);
         }
 
-        public static double[] ExtractColumn(double[,] matrix, int c)
+        public double[] ExtractColumn(int c)
         {
-            int matrixHeight = matrix.GetLength(0);
+            int matrixHeight = _data.GetLength(0);
             var result = new double[matrixHeight];
             for (var y = 0; y < matrixHeight; y++)
             {
-                result[y] = matrix[y, c];
+                result[y] = _data[y, c];
             }
             return result;
         }
 
 
-        public static double[] ExtractRow(double[,] matrix, int r)
+        public double[] ExtractRow(int r)
         {
-            int matrixLength = matrix.GetLength(1);
+            int matrixLength = _data.GetLength(1);
             var result = new double[matrixLength];
             for (var x = 0; x < matrixLength; x++)
             {
-                result[x] = matrix[r, x];
+                result[x] = _data[r, x];
             }
             return result;
+        }
+
+
+        public void print()
+        {
+            for (int y = 0; y < _data.GetLength(0); y++)
+            {
+                var str = "";
+                for (int x = 0; x < _data.GetLength(1); x++)
+                {
+                    str += _data[y, x].ToString();
+                }
+                Console.WriteLine(str);
+            }
+
         }
     }
 }

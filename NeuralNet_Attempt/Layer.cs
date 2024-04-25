@@ -22,11 +22,11 @@ namespace NeuralNet_Attempt
 
         }
             
-        public double[] GetNextNodes()
-        {
-            var Z =  (Matrix.Multiply(_weights,Matrix.Transpose(_nodes) + bias;
-            return z.activaion;
-        }
+    //    public double[] GetNextNodes()
+    //    {
+    //        var Z =  (Matrix.Multiply(_weights,Matrix.FromVector(_nodes) + bias;
+    //        return z.activaion;
+    //    }
         
     }
 }
