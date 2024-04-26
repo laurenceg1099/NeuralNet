@@ -12,8 +12,9 @@ namespace NeuralNet_Attempt
     public class Layer
     {
         public  Vector _nodes;
-        private Matrix _weights;
-        private Vector _bias;
+        public Matrix _weights;
+        public Vector _bias;
+        public Vector Z;
         public Layer(int nodes_count , int next_count)
         {
             _nodes = new Vector(new double[nodes_count]);
@@ -24,9 +25,11 @@ namespace NeuralNet_Attempt
 
         public Vector GetNextNodes()
         {
-            var Z = (_weights.Multiply(_nodes.FromVectorVertical())).ExtractVector().SumVector(_bias);
+            Z = (_weights.Multiply(_nodes.FromVectorVertical())).ExtractVector().SumVector(_bias);
             return Functions.Activation(Z);
         }
+
+        
 
     }
 }

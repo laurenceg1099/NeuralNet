@@ -73,5 +73,21 @@ namespace NeuralNet_Attempt
 
             return new Matrix(result);
         }
+
+        public Vector ScaleVector(double scale)
+        {
+            var result = new Vector(new double[_data.Length]);
+            for(int x=0; x<  _data.Length; x++)
+            {
+                result._data[x] = _data[x]*scale;
+            }
+
+            return result;
+        }
+
+        public static Vector operator*(double scale,Vector v1)
+        {
+            return v1.ScaleVector(scale);
+        }
     }
 }

@@ -23,6 +23,19 @@ namespace NeuralNet_Attempt
             return nodeIn;
         }
 
+        public static Vector ActivationDerivative(Vector nodeIn)
+        {
+
+            switch (ActivationType)
+            {
+                case "ReLU":
+                    return ReLUDerivative(nodeIn);
+
+            }
+
+            return nodeIn;
+        }
+
         public static Vector ReLU(Vector nodeIn)
         {
             var result = new Vector(new double[nodeIn._data.Length]);
@@ -34,6 +47,17 @@ namespace NeuralNet_Attempt
             return result;
         }
 
+        public static Vector ReLUDerivative(Vector nodeIn)
+        {
+            var result = new double[nodeIn._data.Length];
+            for (int i = 0;i < nodeIn._data.Length; i++)
+            {
+                if (nodeIn._data[i] <= 0)
+                    result[i] = 0;
+                else result[i] = 1;
+            }
+            return new Vector(result);
+        }
 
 
 
@@ -43,7 +67,7 @@ namespace NeuralNet_Attempt
         public static Vector Loss(Vector prediction, Vector OneHotLabel)
         {
 
-            switch (ActivationType)
+            switch (LossType)
             {
                 case "SE":
                     return SE(prediction, OneHotLabel);
@@ -53,15 +77,41 @@ namespace NeuralNet_Attempt
             throw new NotImplementedException();
         }
 
+        public static Vector LossDerivative(Vector prediction, Vector OneHotLabel)
+        {
+
+            switch (LossType)
+            {
+                case "SE":
+                    return SEDerivative(prediction, OneHotLabel);
+
+            }
+
+            throw new NotImplementedException();
+        }
+
+
+
         public static Vector SE(Vector prediction, Vector OneHotLabel)
         {
             var error = OneHotLabel.SubVector(prediction);
             var SqEr = new Vector(new double[prediction._data.Length]);
-            for (int i = 0;i < prediction._data.Length; i++)
+            for (int i = 0; i < prediction._data.Length; i++)
             {
                 SqEr._data[i] = Math.Pow(error._data[i], 2);
             }
             return SqEr;
+        }
+
+        public static Vector SEDerivative(Vector prediction, Vector OneHotLabel)
+        {
+            var error = OneHotLabel.SubVector(prediction);
+            var ErDer = new Vector(new double[prediction._data.Length]);
+            for (int i = 0; i < prediction._data.Length; i++)
+            {
+                ErDer._data[i] = 2 * ErDer._data[i];
+            }
+            return ErDer;
         }
     }
 }

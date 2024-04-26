@@ -100,6 +100,22 @@ namespace NeuralNet_Attempt
 
         }
 
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (int y = 0; y < _data.GetLength(0); y++)
+            {
+                for (int x = 0; x < _data.GetLength(1); x++)
+                {
+                    sb.Append( _data[y, x].ToString());
+                    sb.Append(", ");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+        public string Dump => ToString();
 
         public Vector ExtractVector()
         {
@@ -111,5 +127,57 @@ namespace NeuralNet_Attempt
                 throw new Exception("could not extract vector from matrix");
 
         }
+
+        public static Matrix operator*(Matrix a, Matrix b)
+        {
+            return a.Multiply(b);
+        }
+
+        public Vector SumRows()
+        {
+            var result = new double[_data.GetLength(0)];
+            for(int y =0; y < _data.GetLength(0); y++)
+            {
+                result[y] = ExtractRow(y)._data.Sum();
+            }
+            return new Vector(result);
+        }
+
+        public Vector SumColumns()
+        {
+            var result = new double[_data.GetLength(1)];
+            for (int x = 0; x < _data.GetLength(1); x++)
+            {
+                result[x] = ExtractColumn(x)._data.Sum();
+            }
+            return new Vector(result);
+        }
+
+        public Matrix ScaleMatrix(double scale)
+        {
+            var result = new double[_data.GetLength(0),_data.GetLength(1)];
+            for(int y =0; y < _data.GetLength(0); y++)
+            {
+                for(int x = 0; x < _data.GetLength(1); x++)
+                {
+                    result[y,x] = _data[y,x]*scale;
+                }
+            }
+            return new Matrix(result);
+        }
+
+        public Matrix SubMatrix(Matrix m2)
+        {
+            var result = new double[_data.GetLength(0), _data.GetLength(1)];
+            for (int y = 0; y < _data.GetLength(0); y++)
+            {
+                for (int x = 0; x < _data.GetLength(1); x++)
+                {
+                    result[y, x] = _data[y, x] - m2._data[y,x];
+                }
+            }
+            return new Matrix(result);
+        }
+
     }
 }
