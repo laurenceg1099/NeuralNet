@@ -18,8 +18,8 @@ namespace NeuralNet_Attempt
         public Layer(int nodes_count , int next_count)
         {
             _nodes = new Vector(new double[nodes_count]);
-            _weights = new Matrix(new double[next_count,nodes_count]);
-            _bias = new Vector(new double[next_count]);
+            _weights = MatrixInitilizer.weightInit(next_count,nodes_count);
+            _bias = MatrixInitilizer.biasInit(next_count);
 
         }
 
@@ -32,4 +32,4 @@ namespace NeuralNet_Attempt
         
 
     }
-}
+}   
