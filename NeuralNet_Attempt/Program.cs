@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            //MatrixTest();
+            var n = new Network(new int[3] { 3,4, 8 });
+            n.ForwardPropagate(new Vector(new double[] { 0, 1, 0 }), new Vector(new double[] { 0, 0, 1, 0, 0, 0, 0, 0 }));
+            n.BackwardsPropagate();
 
         }
 

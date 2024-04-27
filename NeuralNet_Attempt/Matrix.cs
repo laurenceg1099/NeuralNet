@@ -61,7 +61,7 @@ namespace NeuralNet_Attempt
 
             return new Matrix(result);
         }
-
+         
         public Vector ExtractColumn(int c)
         {
             int matrixHeight = _data.GetLength(0);
@@ -179,5 +179,18 @@ namespace NeuralNet_Attempt
             return new Matrix(result);
         }
 
+        public Matrix ScaleRows(Vector vector)
+        {
+            var result = new double[_data.GetLength(0), _data.GetLength(1)];
+            for (int y =0; y < _data.GetLength(0); y++)
+            {
+                for (int x=0;  x < _data.GetLength(1); x++)
+                {
+                    result[y, x] = _data[y, x] * vector._data[y];
+                }
+            }
+
+            return new Matrix(result);
+        }
     }
 }
