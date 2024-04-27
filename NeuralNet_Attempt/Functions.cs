@@ -106,12 +106,12 @@ namespace NeuralNet_Attempt
         public static Vector SEDerivative(Vector prediction, Vector OneHotLabel)
         {
             var error = OneHotLabel.SubVector(prediction);
-            var ErDer = new Vector(new double[prediction._data.Length]);
+            var result = new Vector(new double[prediction._data.Length]);
             for (int i = 0; i < prediction._data.Length; i++)
             {
-                ErDer._data[i] = 2 * ErDer._data[i];
+                result._data[i] = 2 * error._data[i];
             }
-            return ErDer;
+            return result;
         }
     }
 }

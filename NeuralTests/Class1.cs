@@ -13,6 +13,7 @@ namespace NeuralTests
             n.ForwardPropagate(new Vector(new double[] { 0, 1, 0 }), new Vector(new double[] { 0, 0, 1, 0, 0, 0, 0, 0 }));
             n.BackwardsPropagate();
             n.ForwardPropagate(new Vector(new double[] { 1, 0, 0 }), new Vector(new double[] { 0, 0, 0, 0, 1, 0, 0, 0 }));
+            n.BackwardsPropagate();
             
 
 
