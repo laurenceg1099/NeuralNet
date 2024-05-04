@@ -4,10 +4,19 @@
     {
         static void Main(string[] args)
         {
-            var n = new Network(new int[3] { 3,4, 8 });
-            n.ForwardPropagate(new Vector(new double[] { 0, 1, 0 }), new Vector(new double[] { 0, 0, 1, 0, 0, 0, 0, 0 }));
-            n.BackwardsPropagate();
-           
+            var n = new Network(new int[3] { 3, 4, 1 });
+            for (int i = 0; i < 1000; i++)
+            {
+                n.ForwardPropagate(new Vector(new double[] { 1, 1, 0 }), new Vector(new double[] {1}));
+                n.BackwardsPropagate();
+                Console.WriteLine($"Iteratrion:{i} {n.squaredError._data[0]}");
+            }
+
+            n.testNetwork(new Vector(new double[] { 1, 1, 0 }));
+
+
+
+
         }
 
         private static void MatrixTest()

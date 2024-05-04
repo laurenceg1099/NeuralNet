@@ -9,7 +9,7 @@ namespace NeuralNet_Attempt
     public static class MatrixInitilizer
     {
         public const int maxWeight = 5;
-        public const int maxBias = 10;
+        public const int maxBias  =10 ;
         
         public static Matrix weightInit(int nextcount, int nodesCount)
         {

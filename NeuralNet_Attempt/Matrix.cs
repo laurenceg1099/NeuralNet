@@ -173,7 +173,8 @@ namespace NeuralNet_Attempt
             {
                 for (int x = 0; x < _data.GetLength(1); x++)
                 {
-                    result[y, x] = _data[y, x] - m2._data[y,x];
+                    //this should be subtract for gradient descent but for some reason only works with addition
+                    result[y, x] = _data[y, x] + m2._data[y,x];
                 }
             }
             return new Matrix(result);

@@ -12,7 +12,8 @@ namespace NeuralNet_Attempt
     {
         public Layer[] layers;
         public Vector lossDerivative;
-        public double learningRate = 0.5;
+        public double learningRate = 0.0001;
+        public Vector squaredError;
         public Network(int[] layerInfo)
         {
             layers = new Layer[layerInfo.Length];
@@ -22,6 +23,18 @@ namespace NeuralNet_Attempt
                     layers[i] = new Layer(layerInfo[i], layerInfo[i + 1]);
                 else layers[i] = new Layer(layerInfo[i], 0);
             }
+        }
+
+        public void testNetwork(Vector input)
+        {
+            layers[0]._nodes = input;
+
+            for (int i = 0; i < layers.Length - 1; i++)
+            {
+                layers[i + 1]._nodes = layers[i].GetNextNodes();
+            }
+            var output = layers[^1]._nodes;
+            Console.WriteLine(output.ToString());
         }
 
         public void ForwardPropagate(Vector input , Vector label)
@@ -35,8 +48,9 @@ namespace NeuralNet_Attempt
 
             var output = layers[^1]._nodes;
 
-            var squaredError = Functions.Loss(output, label);
+            squaredError = Functions.Loss(output, label);
             lossDerivative = Functions.LossDerivative(output,label);
+            
 
         }
 
@@ -49,27 +63,28 @@ namespace NeuralNet_Attempt
             Matrix wD1 = (layers[^2]._nodes.FromVectorVertical() * (lossDerivative.FromVectorHorizontal().ScaleRows(Functions.ActivationDerivative(layers[^2].Z)))).Transpose();
             Vector bD1 = lossDerivative.FromVectorHorizontal().ScaleRows(Functions.ActivationDerivative(layers[^2].Z)).ExtractVector();
             Vector aD1 = (layers[^2]._weights.Transpose() * lossDerivative.FromVectorVertical().ScaleRows(Functions.ActivationDerivative(layers[^2].Z))).SumRows();
-           
+
 
             nextlayers[^2] = layers[^2];
-            nextlayers[^2]._weights.SubMatrix(wD1.ScaleMatrix(learningRate));
-            nextlayers[^2]._bias.SubVector(learningRate * bD1);
+            nextlayers[^2]._weights = nextlayers[^2]._weights.SubMatrix(wD1.ScaleMatrix(learningRate));
+            nextlayers[^2]._bias = nextlayers[^2]._bias.SubVector(learningRate * bD1);
 
             var preNodeDerivative = aD1;
             for (int l = layers.Length-3 ;  l >= 0  ; l--)
             {
-                
                 Matrix wDnext = (layers[l]._nodes.FromVectorVertical() * (preNodeDerivative.FromVectorHorizontal().ScaleRows(Functions.ActivationDerivative(layers[l].Z)))).Transpose();
                 Vector bDnext = preNodeDerivative.FromVectorHorizontal().ScaleRows(Functions.ActivationDerivative(layers[l].Z)).ExtractVector();
                 var nextNodeDerivative = (layers[l]._weights.Transpose() * preNodeDerivative.FromVectorVertical().ScaleRows(Functions.ActivationDerivative(layers[l].Z))).ExtractVector();
 
                
                 nextlayers[l] = layers[l];
-                nextlayers[l]._weights.SubMatrix(wDnext.ScaleMatrix(learningRate));
-                nextlayers[l]._bias.SubVector(learningRate * bDnext);
+                nextlayers[l]._weights = nextlayers[l]._weights.SubMatrix(wDnext.ScaleMatrix(learningRate));
+                nextlayers[l]._bias =  nextlayers[l]._bias.SubVector(learningRate * bDnext);
 
                 preNodeDerivative = nextNodeDerivative;
             }
+
+            layers = nextlayers;
         }
 
     }
