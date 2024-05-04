@@ -50,6 +50,17 @@ namespace NeuralNet_Attempt
 
             return result;
         }
+
+        public Vector AddVector(Vector VectB)
+        {
+            var result = new Vector(new double[_data.Length]);
+            for (int i = 0; i < _data.Length; ++i)
+            {
+                result._data[i] = _data[i] + VectB._data[i];
+            }
+
+            return result;
+        }
         public Matrix FromVectorVertical()
         {
             var result = new double[_data.Length, 1];
@@ -98,6 +109,11 @@ namespace NeuralNet_Attempt
                 output[i] = Math.Round(_data[i]);
             }
             return string.Join(", ", output);
+        }
+
+        internal Vector Clone()
+        {
+            return new Vector((double[])_data.Clone());
         }
     }
 }

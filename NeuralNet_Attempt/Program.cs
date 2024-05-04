@@ -6,7 +6,7 @@
         {
             //perameters to play with 
             var learningRate = 0.00005;
-            var cycles = 25000;
+            var cycles = 100000;
             //trainer and network init
             var n = new Network([3, 4, 48, 3], 1, 1);
             var t = new Trainer(n, cycles, learningRate);
@@ -20,11 +20,12 @@
             var label2 = new Vector([1, 0, 0]);
             var Data2 = new Vector[] { feature2, label2 };
 
-            var InputData = new Vector[][] { Data1,Data2 };
+            var InputData = new Vector[][] { Data1,Data2};
 
             t.Train(InputData);
+            t.Test([new Vector([1,0,0])]);
             t.Test([new Vector([0,1,1])]);
-            t.Test([new Vector([1,1,1])]);
+            t.Test([new Vector([1, 1, 1])]);
 
         }
 

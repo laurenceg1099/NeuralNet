@@ -26,10 +26,14 @@ namespace NeuralNet_Attempt
                 {
                     n.ForwardPropagate(example[0], example[1]);
                     n.BackwardsPropagate();
-                    Console.WriteLine($"Iteratrion:{i} {n.squaredError._data[0]}");
                 }
-                
+                if ( i %7 == 0)
+                    Console.WriteLine($"Iteratrion:{i} {n.squaredError._data[0]}");
+
+                n.ApplyGradients(TrainingData.Length);
             }
+
+
         }
 
         public void Test(Vector[] TestingData)

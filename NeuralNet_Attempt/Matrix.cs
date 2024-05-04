@@ -174,7 +174,21 @@ namespace NeuralNet_Attempt
                 for (int x = 0; x < _data.GetLength(1); x++)
                 {
                     //this should be subtract for gradient descent but for some reason only works with addition
-                    result[y, x] = _data[y, x] + m2._data[y,x];
+                    result[y, x] = _data[y, x] - m2._data[y,x];
+                }
+            }
+            return new Matrix(result);
+        }
+
+        public Matrix AddMatrix(Matrix m2)
+        {
+            var result = new double[_data.GetLength(0), _data.GetLength(1)];
+            for (int y = 0; y < _data.GetLength(0); y++)
+            {
+                for (int x = 0; x < _data.GetLength(1); x++)
+                {
+                    //this should be subtract for gradient descent but for some reason only works with addition
+                    result[y, x] = _data[y, x] + m2._data[y, x];
                 }
             }
             return new Matrix(result);
@@ -192,6 +206,11 @@ namespace NeuralNet_Attempt
             }
 
             return new Matrix(result);
+        }
+
+        internal Matrix Clone()
+        {
+            return new Matrix((double[,])_data.Clone());
         }
     }
 }

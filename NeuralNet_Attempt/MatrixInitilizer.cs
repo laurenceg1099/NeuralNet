@@ -38,6 +38,32 @@ namespace NeuralNet_Attempt
             return new Vector(output);
         }
 
+        public static Matrix weightInit(int nextcount, int nodesCount)
+        {
+            var output = new double[nextcount, nodesCount];
+            for (int y = 0; y < nextcount; y++)
+            {
+                for (int x = 0; x < nodesCount; x++)
+                {
+                    output[y, x] = 0;
+                }
+
+            }
+            return new Matrix(output);
+        }
+
+        public static Vector biasInit(int nodes)
+        {
+
+            var output = new double[nodes];
+            for (int i = 0; i < nodes; i++)
+            {
+                output[i] = 0;
+            }
+
+            return new Vector(output);
+        }
+
 
     }
 }

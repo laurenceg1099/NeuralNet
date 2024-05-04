@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace NeuralNet_Attempt
         public Vector squaredError;
         private int MaxWeight;
         private int MaxBias;
+        
         public Network(int[] layerInfo, int maxweight,int maxbias)
         {
             layers = new Layer[layerInfo.Length];
@@ -62,8 +64,6 @@ namespace NeuralNet_Attempt
 
         public void BackwardsPropagate()
         {
-            var nextlayers = new Layer[layers.Length];
-            nextlayers[^1] = layers[^1];
 
             //wd1 shouldnt need to be transposed,a bodge
             Matrix wD1 = (layers[^2]._nodes.FromVectorVertical() * (lossDerivative.FromVectorHorizontal().ScaleRows(Functions.ActivationDerivative(layers[^2].Z)))).Transpose();
@@ -71,9 +71,8 @@ namespace NeuralNet_Attempt
             Vector aD1 = (layers[^2]._weights.Transpose() * lossDerivative.FromVectorVertical().ScaleRows(Functions.ActivationDerivative(layers[^2].Z))).SumRows();
 
 
-            nextlayers[^2] = layers[^2];
-            nextlayers[^2]._weights = nextlayers[^2]._weights.SubMatrix(wD1.ScaleMatrix(learningRate));
-            nextlayers[^2]._bias = nextlayers[^2]._bias.SubVector(learningRate * bD1);
+            layers[^2]._weightGradient = layers[^2]._weightGradient.AddMatrix(wD1.ScaleMatrix(learningRate));
+            layers[^2]._biasGradient = layers[^2]._biasGradient.AddVector(learningRate * bD1);
 
             var preNodeDerivative = aD1;
             for (int l = layers.Length-3 ;  l >= 0  ; l--)
@@ -83,15 +82,25 @@ namespace NeuralNet_Attempt
                 var nextNodeDerivative = (layers[l]._weights.Transpose() * preNodeDerivative.FromVectorVertical().ScaleRows(Functions.ActivationDerivative(layers[l].Z))).ExtractVector();
 
                
-                nextlayers[l] = layers[l];
-                nextlayers[l]._weights = nextlayers[l]._weights.SubMatrix(wDnext.ScaleMatrix(learningRate));
-                nextlayers[l]._bias =  nextlayers[l]._bias.SubVector(learningRate * bDnext);
+                layers[l]._weightGradient = layers[l]._weightGradient.AddMatrix(wDnext.ScaleMatrix(learningRate));
+                layers[l]._biasGradient = layers[l]._biasGradient.AddVector(learningRate * bDnext);
 
                 preNodeDerivative = nextNodeDerivative;
             }
 
-            layers = nextlayers;
         }
 
+
+        public void ApplyGradients(int inputSize)
+        {
+
+            for(int l =0; l< layers.Length ; l++)
+            {
+                layers[l]._weights = layers[l]._weights.AddMatrix(layers[l]._weightGradient.ScaleMatrix(1.0 / inputSize));
+                layers[l]._bias = layers[l]._bias.SubVector(layers[l]._biasGradient.ScaleVector(1.0/inputSize));
+                layers[l].ResetGradients();
+            }
+
+        }
     }
 }
