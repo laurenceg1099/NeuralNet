@@ -40,7 +40,7 @@ namespace NeuralNet_Attempt
                 layers[i + 1]._nodes = layers[i].GetNextNodes();
             }
             var output = layers[^1]._nodes;
-            Console.WriteLine($"{input.ToString()} --> {output.ToString()}");
+            Console.WriteLine($"{input} --> {output}");
         }
 
         public void ForwardPropagate(Vector input , Vector label)
