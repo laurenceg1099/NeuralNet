@@ -89,5 +89,15 @@ namespace NeuralNet_Attempt
         {
             return v1.ScaleVector(scale);
         }
+
+        public override string ToString()
+        {
+            var output = new double[_data.Length];
+            for (int  i  = 0; i < output.Length; i++)
+            {
+                output[i] = Math.Round(_data[i]);
+            }
+            return string.Join(", ", output);
+        }
     }
 }

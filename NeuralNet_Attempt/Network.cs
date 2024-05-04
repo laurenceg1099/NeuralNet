@@ -14,15 +14,21 @@ namespace NeuralNet_Attempt
         public Vector lossDerivative;
         public double learningRate = 0.0001;
         public Vector squaredError;
-        public Network(int[] layerInfo)
+        private int MaxWeight;
+        private int MaxBias;
+        public Network(int[] layerInfo, int maxweight,int maxbias)
         {
             layers = new Layer[layerInfo.Length];
             for (int i = 0; i < layerInfo.Length; i++)
             {
                 if (i != layerInfo.Length - 1)
-                    layers[i] = new Layer(layerInfo[i], layerInfo[i + 1]);
-                else layers[i] = new Layer(layerInfo[i], 0);
+                    layers[i] = new Layer(layerInfo[i], layerInfo[i + 1],maxweight,maxbias);
+                else layers[i] = new Layer(layerInfo[i], 0,maxweight,maxbias);
             }
+
+            //weights and bias
+            MaxWeight = maxweight;
+            MaxBias = maxbias;  
         }
 
         public void testNetwork(Vector input)
@@ -34,7 +40,7 @@ namespace NeuralNet_Attempt
                 layers[i + 1]._nodes = layers[i].GetNextNodes();
             }
             var output = layers[^1]._nodes;
-            Console.WriteLine(output.ToString());
+            Console.WriteLine($"{input.ToString()} --> {output.ToString()}");
         }
 
         public void ForwardPropagate(Vector input , Vector label)

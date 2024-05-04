@@ -15,11 +15,11 @@ namespace NeuralNet_Attempt
         public Matrix _weights;
         public Vector _bias;
         public Vector Z;
-        public Layer(int nodes_count , int next_count)
+        public Layer(int nodes_count , int next_count, int maxWeight , int maxbias)
         {
             _nodes = new Vector(new double[nodes_count]);
-            _weights = MatrixInitilizer.weightInit(next_count,nodes_count);
-            _bias = MatrixInitilizer.biasInit(next_count);
+            _weights = MatrixInitilizer.weightInit(next_count,nodes_count,maxWeight);
+            _bias = MatrixInitilizer.biasInit(next_count,maxbias);
 
         }
 

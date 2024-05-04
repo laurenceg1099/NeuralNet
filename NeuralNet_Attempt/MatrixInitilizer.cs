@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace NeuralNet_Attempt
 {
-    public static class MatrixInitilizer
+    public class MatrixInitilizer
     {
-        public const int maxWeight = 5;
-        public const int maxBias  =10 ;
         
-        public static Matrix weightInit(int nextcount, int nodesCount)
+        
+        public static Matrix weightInit(int nextcount, int nodesCount,int maxWeight)
         {
             var rand = new Random();
             var output = new double[nextcount, nodesCount];
@@ -27,7 +26,7 @@ namespace NeuralNet_Attempt
             return new Matrix(output);
         }
 
-        public static Vector biasInit(int nodes)
+        public static Vector biasInit(int nodes,int maxBias)
         {
             var rand = new Random();
             var output = new double[nodes];
