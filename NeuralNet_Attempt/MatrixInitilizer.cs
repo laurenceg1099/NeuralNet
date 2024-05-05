@@ -12,7 +12,7 @@ namespace NeuralNet_Attempt
         
         public static Matrix weightInit(int nextcount, int nodesCount,int maxWeight)
         {
-            var rand = new Random();
+            var rand = new Random(0);
             var output = new double[nextcount, nodesCount];
             for (int y = 0; y < nextcount; y++)
             {
@@ -28,7 +28,7 @@ namespace NeuralNet_Attempt
 
         public static Vector biasInit(int nodes,int maxBias)
         {
-            var rand = new Random();
+            var rand = new Random(0);
             var output = new double[nodes];
             for (int i = 0; i < nodes; i++)
             {
@@ -40,6 +40,7 @@ namespace NeuralNet_Attempt
 
         public static Matrix weightInit(int nextcount, int nodesCount)
         {
+
             var output = new double[nextcount, nodesCount];
             for (int y = 0; y < nextcount; y++)
             {
